@@ -2,6 +2,9 @@ desc "Fill the database tables with some sample data"
 task sample_data: :environment do
   starting = Time.now
 
+  # Clean up existing uploaded files
+  FileUtils.rm_rf(Rails.root.join("public", "uploads"))
+  
   FollowRequest.delete_all
   Comment.delete_all
   Like.delete_all
@@ -19,19 +22,6 @@ task sample_data: :environment do
     { first_name: "Henry", last_name: "Davis" },
     { first_name: "Ivy", last_name: "Miller" },
     { first_name: "Jack", last_name: "Anderson" }
-  ]
-
-  photo_images = [
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179692/10_op0tpz.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179691/9_iyhady.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179691/8_d5opde.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179691/7_rb5fmu.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179690/6_zvmuwq.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179690/5_ogrjwc.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179690/4_ow4t9b.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179689/3_fx6akk.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179689/2_kl1hpb.jpg",
-    "https://res.cloudinary.com/dzhwwlb9e/image/upload/v1743179689/1_rnywum.jpg"
   ]
 
   people.each do |person|
@@ -73,13 +63,10 @@ task sample_data: :environment do
 
   users.each do |user|
     3.times do |i|
-      photo = user.own_photos.new(
-        caption: "Sample photo #{i + 1} by #{user.name}"
+      photo = user.own_photos.create(
+        caption: "Sample photo #{i + 1} by #{user.name}",
+        image: File.open(Rails.root.join("public", "#{rand(1..10)}.jpeg"))
       )
-
-      # Skip validations and callbacks to set the image directly
-      photo.save(validate: false)
-      photo.update_column(:image, photo_images.sample)
 
       user.followers.each do |follower|
         if follower.username.in?([ "alice", "bob", "eve", "frank" ])
