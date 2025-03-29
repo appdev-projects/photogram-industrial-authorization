@@ -10,7 +10,7 @@
 
         <% form_html_options = { method: :put, novalidate: true, class: "mb-3" } %>
 
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options, multipart: true) do |f| %>
           <% if flash[:notice].present? %>
             <div class="alert alert-info" role="alert">
               <%= flash[:notice] %>
@@ -218,7 +218,7 @@
 
             <%= f.label :avatar_image %>
 
-            <%= f.text_field :avatar_image, :class => avatar_image_class, :placeholder => "Enter avatar image" %>
+            <%= f.file_field :avatar_image, :class => avatar_image_class, :placeholder => "Enter avatar image" %>
 
             <% if avatar_image_was_invalid %>
               <% resource.errors.full_messages_for(:avatar_image).each do |message| %>

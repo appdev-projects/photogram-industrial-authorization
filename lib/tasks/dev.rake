@@ -2,6 +2,9 @@ desc "Fill the database tables with some sample data"
 task sample_data: :environment do
   starting = Time.now
 
+  # Clean up existing uploaded files
+  FileUtils.rm_rf(Rails.root.join("public", "uploads"))
+
   FollowRequest.delete_all
   Comment.delete_all
   Like.delete_all
@@ -21,6 +24,7 @@ task sample_data: :environment do
     { first_name: "Jack", last_name: "Anderson" }
   ]
 
+  counter = 1
   people.each do |person|
     username = person.fetch(:first_name).downcase
 
@@ -32,8 +36,10 @@ task sample_data: :environment do
       bio: "#{person[:first_name]} is a sample user.",
       website: "https://#{username}.example.com",
       private: person[:first_name].in?([ "Bob", "Carol", "Eve", "Ivy" ]),
-      avatar_image: "https://robohash.org/#{username}"
+      avatar_image: File.open("#{Rails.root}/public/avatars/#{counter}.jpeg")
     )
+
+    counter += 1
   end
 
   users = User.all
@@ -60,18 +66,9 @@ task sample_data: :environment do
 
   users.each do |user|
     3.times do |i|
-      # This allows the image to display whether in a codespace, deployed, or local environment
-      image_url = if ENV.fetch("CODESPACE_NAME", nil).present?
-        "https://#{ENV.fetch("CODESPACE_NAME")}-3000.app.github.dev/#{rand(1..10)}.jpeg"
-      elsif ENV.fetch("APPLICATION_HOST", nil).present?
-        "https://#{ENV.fetch("APPLICATION_HOST")}/#{rand(1..10)}.jpeg"
-      else
-        "http://localhost:3000/#{rand(1..10)}.jpeg"
-      end
-
       photo = user.own_photos.create(
         caption: "Sample photo #{i + 1} by #{user.name}",
-        image: image_url
+        image: File.open("#{Rails.root}/public/photos/#{rand(1..10)}.jpeg")
       )
 
       user.followers.each do |follower|
