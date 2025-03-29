@@ -4,7 +4,7 @@ task sample_data: :environment do
 
   # Clean up existing uploaded files
   FileUtils.rm_rf(Rails.root.join("public", "uploads"))
-  
+
   FollowRequest.delete_all
   Comment.delete_all
   Like.delete_all
