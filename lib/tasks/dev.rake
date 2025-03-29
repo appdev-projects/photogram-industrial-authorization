@@ -24,6 +24,7 @@ task sample_data: :environment do
     { first_name: "Jack", last_name: "Anderson" }
   ]
 
+  counter = 1
   people.each do |person|
     username = person.fetch(:first_name).downcase
 
@@ -35,8 +36,10 @@ task sample_data: :environment do
       bio: "#{person[:first_name]} is a sample user.",
       website: "https://#{username}.example.com",
       private: person[:first_name].in?([ "Bob", "Carol", "Eve", "Ivy" ]),
-      avatar_image: "https://robohash.org/#{username}"
+      avatar_image: File.open("#{Rails.root}/public/avatars/#{counter}.jpeg")
     )
+
+    counter += 1
   end
 
   users = User.all
@@ -65,7 +68,7 @@ task sample_data: :environment do
     3.times do |i|
       photo = user.own_photos.create(
         caption: "Sample photo #{i + 1} by #{user.name}",
-        image: File.open(Rails.root.join("public", "#{rand(1..10)}.jpeg"))
+        image: File.open("#{Rails.root}/public/photos/#{rand(1..10)}.jpeg")
       )
 
       user.followers.each do |follower|

@@ -22,7 +22,7 @@
 
         <% form_html_options = { novalidate: true, class: "mb-3" } %>
 
-        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: form_html_options, multipart: true) do |f| %>
           <div class="form-group">
             <% email_was_invalid = resource.errors.include?(:email) %>
 
@@ -173,7 +173,7 @@
 
             <%= f.label :avatar_image %>
 
-            <%= f.text_field :avatar_image, :class => avatar_image_class, :placeholder => "Enter avatar image" %>
+            <%= f.file_field :avatar_image, :class => avatar_image_class, :placeholder => "Enter avatar image" %>
 
             <% if avatar_image_was_invalid %>
               <% resource.errors.full_messages_for(:avatar_image).each do |message| %>
