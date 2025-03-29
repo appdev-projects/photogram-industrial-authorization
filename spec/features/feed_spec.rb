@@ -15,7 +15,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
     visit "/#{user.username}/feed"
@@ -30,7 +30,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
     visit "/#{user.username}/feed"
@@ -45,7 +45,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     Like.create(fan_id: user.id, photo_id: photo.id)
 
@@ -61,7 +61,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
     visit "/#{user.username}/feed"
@@ -77,7 +77,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     comment = Comment.create(body: "New comment", author_id: user.id, photo_id: photo.id)
 
@@ -93,7 +93,7 @@ describe "/[USERNAME]/feed" do
     sign_in(user)
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: leader.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     comment = Comment.create(body: "New comment", author_id: user.id, photo_id: photo.id)
 

@@ -18,7 +18,7 @@ describe "/photos/new" do
 
     click_on "Add post"
 
-    fill_in "Image", with: "https://robohash.org/test"
+    attach_file "Image", "#{Rails.root}/spec/support/test_image.jpeg"
     click_on "Create Photo"
 
     expect(page).to have_content("Caption can't be blank")
@@ -32,7 +32,7 @@ describe "/photos/new" do
 
     click_on "Add post"
 
-    fill_in "Image", with: "https://robohash.org/test"
+    attach_file "Image", "#{Rails.root}/spec/support/test_image.jpeg"
     fill_in "Caption", with: "caption"
     click_on "Create Photo"
 
@@ -47,7 +47,7 @@ describe "/photos/new" do
 
     click_on "Add post"
 
-    fill_in "Image", with: "https://robohash.org/test"
+    attach_file "Image", "#{Rails.root}/spec/support/test_image.jpeg"
     fill_in "Caption", with: "caption"
     click_on "Create Photo"
 
@@ -60,7 +60,7 @@ describe "/photos/[ID]" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
 
     visit "/photos/#{photo.id}"
 
@@ -74,7 +74,7 @@ describe "/photos/[ID]" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
 
     visit "/photos/#{photo.id}"
 

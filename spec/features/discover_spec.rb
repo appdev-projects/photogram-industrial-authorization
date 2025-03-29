@@ -16,7 +16,7 @@ describe "/[USERNAME]/discover" do
 
     leader = User.create(username: "leader", email: "leader@example.com", password: "password", avatar_image: "https://robohash.org/leader")
     owner = User.create(username: "owner", email: "owner@example.com", password: "password", private: false, avatar_image: "https://robohash.org/owner")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "owner caption", owner_id: owner.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "owner caption", owner_id: owner.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     Like.create(fan_id: leader.id, photo_id: photo.id)
 

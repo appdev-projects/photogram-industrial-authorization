@@ -34,7 +34,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
 
     visit "/photos/#{photo.id}"
 
@@ -53,7 +53,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
 
     visit "/photos/#{photo.id}"
 
@@ -72,7 +72,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
     comment = Comment.create(photo_id: photo.id, author_id: other_user.id, body: "comment")
 
     visit "/photos/#{photo.id}"
@@ -91,7 +91,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
     comment = Comment.create(photo_id: photo.id, author_id: other_user.id, body: "comment")
 
     visit "/photos/#{photo.id}"
@@ -110,7 +110,7 @@ describe "Authorization" do
     sign_in(user)
 
     private_user = User.create(username: "bob", email: "bob@example.com", password: "password", avatar_image: "https://robohash.org/bob", private: true)
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: private_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: private_user.id)
 
     visit "/#{private_user.username}"
 
@@ -154,7 +154,7 @@ describe "Authorization" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
     like = Like.create(photo_id: photo.id, fan_id: user.id)
 
     visit "/likes/#{like.id}"
@@ -166,7 +166,7 @@ describe "Authorization" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
     like = Like.create(photo_id: photo.id, fan_id: user.id)
 
     visit "/likes/#{like.id}/edit"
@@ -187,7 +187,7 @@ describe "Authorization" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
     comment = Comment.create(photo_id: photo.id, author_id: user.id, body: "comment")
 
     visit "/comments/#{comment.id}"
@@ -233,7 +233,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
 
     visit "/photos/#{photo.id}/edit"
 
@@ -246,7 +246,7 @@ describe "Authorization" do
     sign_in(user)
 
     other_user = User.create(username: "bob", email: "bob@example.com", password: "password", private: false, avatar_image: "https://robohash.org/bob")
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: other_user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: other_user.id)
     comment = Comment.create(photo_id: photo.id, author_id: other_user.id, body: "comment")
 
     visit "/comments/#{comment.id}/edit"

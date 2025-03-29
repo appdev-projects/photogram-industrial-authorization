@@ -32,7 +32,7 @@ describe "/[USERNAME]" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
 
     visit "/#{user.username}"
 
@@ -46,7 +46,7 @@ describe "/[USERNAME]" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
     comment = Comment.create(body: "body", author_id: user.id, photo_id: photo.id)
 
     visit "/#{user.username}"
@@ -60,7 +60,7 @@ describe "/[USERNAME]" do
     user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
     sign_in(user)
 
-    photo = Photo.create(image: "https://robohash.org/test", caption: "caption", owner_id: user.id)
+    photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
 
     visit "/#{user.username}"
 
