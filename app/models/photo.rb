@@ -35,4 +35,17 @@ class Photo < ApplicationRecord
   validates :image, presence: true
 
   scope :latest, -> { order(created_at: :desc) }
+  
+  # Helper method to get image URL regardless of storage type
+  def image_url
+    # For Cloudinary/remote URLs, return the raw value
+    if read_attribute(:image).to_s.start_with?("http")
+      read_attribute(:image)
+    # For uploaded files, use CarrierWave's URL method with a prefixed slash
+    elsif image.present? && image.file.present?
+      # Ensure the path starts with a slash for proper routing
+      path = image.url
+      path.start_with?('/') ? path : "/#{path}"
+    end
+  end
 end

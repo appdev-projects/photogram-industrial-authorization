@@ -45,4 +45,45 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg"
   # end
+  
+  # Special handling for remote URLs
+  def url
+    # Get the raw value directly from the model for URLs
+    raw_value = model.read_attribute(mounted_as)
+    
+    # If it starts with http, it's a remote URL - return it directly
+    if raw_value.to_s.start_with?("http")
+      raw_value
+    # If it's a normal file upload that's been processed
+    elsif file&.respond_to?(:url)
+      # Make sure the URL is relative to the public folder
+      file_path = super
+      file_path&.gsub(/^public/, '')
+    # Fallback to the raw value
+    else
+      raw_value
+    end
+  end
+  
+  # This prevents CarrierWave from trying to process URL-based images
+  def blank?
+    file.nil? && model.read_attribute(mounted_as).to_s.start_with?("http")
+  end
+  
+  # Skip processing for URLs and return them directly
+  def cache!(new_file = sanitized_file)
+    if new_file.is_a?(String) && new_file.to_s.start_with?("http")
+      # Don't process remote URLs
+      return
+    end
+    super
+  end
+  
+  def store!(new_file = sanitized_file)
+    if new_file.is_a?(String) && new_file.to_s.start_with?("http")
+      # Don't process remote URLs
+      return
+    end
+    super
+  end
 end
