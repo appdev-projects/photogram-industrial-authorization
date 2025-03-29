@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "/photos/new" do
   it "has a form to add a new photo", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     visit "/photos/new"
@@ -11,7 +11,7 @@ describe "/photos/new" do
   end
 
   it "does not allow the user to add a new photo without a caption", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     visit "/"
@@ -25,7 +25,7 @@ describe "/photos/new" do
   end
 
   it "allows the user to add a new photo", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     visit "/"
@@ -40,7 +40,7 @@ describe "/photos/new" do
   end
 
   it "redirects to the photo details page after creating a new photo", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     visit "/"
@@ -57,7 +57,7 @@ end
 
 describe "/photos/[ID]" do
   it "displays the photo and caption inside a bootstrap card", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)
@@ -71,7 +71,7 @@ describe "/photos/[ID]" do
   end
 
   it "allows the user to edit the photo", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: user.id)

@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "/[USERNAME]/feed" do
   it "can be visited", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
     visit "/#{user.username}/feed"
@@ -11,10 +11,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "shows their leader's photos", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
@@ -26,10 +26,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "allows them to like their leader's photos", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
@@ -41,10 +41,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "allows them to un-like their leader's photos", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     Like.create(fan_id: user.id, photo_id: photo.id)
@@ -57,10 +57,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "allows the user to add a comment on their leader's photos", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
 
@@ -73,10 +73,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "allows the user to delete their comment", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     comment = Comment.create(body: "New comment", author_id: user.id, photo_id: photo.id)
@@ -89,10 +89,10 @@ describe "/[USERNAME]/feed" do
   end
 
   it "allows the user to edit their comment", points: 1 do
-    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: "https://robohash.org/alice")
+    user = User.create(username: "alice", email: "alice@example.com", password: "password", avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     sign_in(user)
 
-    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: "https://robohash.org/leader")
+    leader = User.create(username: "leader", email: "leader@example.com", password: "password", private: false, avatar_image: File.open("#{Rails.root}/spec/support/test_image.jpeg"))
     photo = Photo.create(image: File.open("#{Rails.root}/spec/support/test_image.jpeg"), caption: "caption", owner_id: leader.id)
     FollowRequest.create(sender_id: user.id, recipient_id: leader.id, status: "accepted")
     comment = Comment.create(body: "New comment", author_id: user.id, photo_id: photo.id)
