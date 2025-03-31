@@ -5,7 +5,7 @@ class FollowRequestsController < ApplicationController
 
 
   def is_an_authenticated_user
-    if action_name == 'create'
+    if action_name == "create"
       existing_request = FollowRequest.find_by(sender: current_user, recipient_id: params[:follow_request][:recipient_id])
       if existing_request && existing_request.accepted?
         redirect_back(fallback_location: root_url, alert: "You are already following this user.")

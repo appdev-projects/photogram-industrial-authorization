@@ -3,9 +3,9 @@ class CommentsController < ApplicationController
 
   before_action :is_an_authenticated_user, only: [ :create ]
 
-  before_action :is_a_comment_author, only: [:destroy, :edit, :update]
+  before_action :is_a_comment_author, only: [ :destroy, :edit, :update ]
 
-  before_action :authorize_comment_action, only: [:create, :destroy, :edit, :update] 
+  before_action :authorize_comment_action, only: [ :create, :destroy, :edit, :update ]
 
 
   def is_a_comment_author
