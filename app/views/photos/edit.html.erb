@@ -1,13 +1,17 @@
 <div class="row mb-4">
   <div class="col-md-6 offset-md-3">
-    <h1 class="display-4">
-      edit photo
-    </h1>
+    <% if current_user == @photo.owner %>
+      <h1 class="display-4">
+        edit photo
+      </h1>
 
-    <%= render 'form', photo: @photo %>
+      <%= render 'form', photo: @photo %>
 
-    <hr>
-    
-    <%= link_to 'Back', :back, class: "btn btn-outline-secondary btn-block" %>
+      <hr>
+      
+      <%= link_to 'Back', :back, class: "btn btn-outline-secondary btn-block" %>
+    <% else %>
+      <p>You are not authorized to edit this photo.</p>
+    <% end %>
   </div>
 </div>
