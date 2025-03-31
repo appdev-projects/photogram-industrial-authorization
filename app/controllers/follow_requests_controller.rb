@@ -1,6 +1,15 @@
 class FollowRequestsController < ApplicationController
   before_action :set_follow_request, only: %i[ show edit update destroy ]
 
+  before_action :is_an_authenticated_user, only: [ :create, :destroy ]
+
+
+  def is_an_authenticated_user
+    # Ensure the sender is not sending a follow request to someone they already follow
+    if @follow_request && @follow_request.sender == current_user
+      redirect_back(fallback_location: root_url, alert: "You are already following this user.")
+    end
+  end
   # GET /follow_requests or /follow_requests.json
   def index
     @follow_requests = FollowRequest.all
@@ -50,10 +59,18 @@ class FollowRequestsController < ApplicationController
 
   # DELETE /follow_requests/1 or /follow_requests/1.json
   def destroy
-    @follow_request.destroy
-    respond_to do |format|
-      format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully destroyed." }
-      format.json { head :no_content }
+    # Ensure the current user is the sender of the follow request before destroying it
+    if @follow_request.sender == current_user
+      @follow_request.destroy
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, notice: "Follow request was successfully destroyed." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, alert: "You can only delete your own follow requests." }
+        format.json { render json: { error: "Not authorized" }, status: :unauthorized }
+      end
     end
   end
 

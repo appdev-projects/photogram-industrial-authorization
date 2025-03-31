@@ -3,13 +3,14 @@
     <%= render "users/user", user: @user %>
   </div>
 </div>
-
-<div class="row mb-2">
-  <div class="col-md-6 offset-md-3">
-    <%= render "users/profile_nav", user: @user %>
+<% if !@user.private? || @user == current_user || current_user.leaders.include?(@user) %>
+  <div class="row mb-2">
+    <div class="col-md-6 offset-md-3">
+      <%= render "users/profile_nav", user: @user %>
+    </div>
   </div>
-</div>
 
-<% @user.own_photos.each do |photo| %>
-  <%= render "photos/photo", photo: photo %>
+  <% @user.own_photos.each do |photo| %>
+    <%= render "photos/photo", photo: photo %>
+  <% end %>
 <% end %>

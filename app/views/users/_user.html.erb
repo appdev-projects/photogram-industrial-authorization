@@ -53,6 +53,7 @@
         <% end %>
       </div>
 
+      <% if current_user == user %>
       <div>
         <%=
           link_to "#",
@@ -70,6 +71,7 @@
 
         <% end %>
       </div>
+      <% end %>
     </div>
 
     <div class="row mb-3">
@@ -147,6 +149,7 @@
     target: "#{dom_id(user)}_following"
 %>
 
+<% if current_user == user %>
 <%=
   render "users/connected_users_modal",
     user: user,
@@ -154,3 +157,4 @@
     description: "pending",
     target: "#{dom_id(user)}_pending"
 %>
+<% end %>

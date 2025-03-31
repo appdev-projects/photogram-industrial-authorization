@@ -10,12 +10,15 @@
         </h5>
 
         <div>
-          <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted" do %>
-            <i class="fas fa-edit fa-fw"></i>
-          <% end %>
 
-          <%= button_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "btn btn-sm btn-link" do %>
-            <i class="fas fa-trash fa-fw"></i>
+          <% if current_user == comment.author %>
+            <%= link_to edit_comment_path(comment), class: "btn btn-link btn-sm text-muted" do %>
+              <i class="fas fa-edit fa-fw"></i>
+            <% end %>
+
+            <%= button_to comment, method: :delete, class: "btn btn-link btn-sm text-muted", form_class: "btn btn-sm btn-link" do %>
+              <i class="fas fa-trash fa-fw"></i>
+            <% end %>
           <% end %>
         </div>
       </div>

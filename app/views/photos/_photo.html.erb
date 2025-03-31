@@ -8,6 +8,7 @@
           <%= link_to photo.owner.username, user_path(photo.owner.username), class: "text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-100-hover", data: { turbo: false } %>
         </h2>
 
+        <% if current_user == photo.owner %>
         <div>
           <%= link_to edit_photo_path(photo), class: "btn btn-link btn-sm text-muted" do %>
             <i class="fas fa-edit fa-fw"></i>
@@ -17,6 +18,7 @@
             <i class="fas fa-trash fa-fw"></i>
           <% end %>
         </div>
+        <% end %>
       </div>
 
       <%= image_tag photo.image, class: "img-fluid" %>
