@@ -5,9 +5,11 @@ class FollowRequestsController < ApplicationController
 
 
   def is_an_authenticated_user
-    # Ensure the sender is not sending a follow request to someone they already follow
-    if @follow_request && @follow_request.sender == current_user
-      redirect_back(fallback_location: root_url, alert: "You are already following this user.")
+    if action_name == 'create'
+      existing_request = FollowRequest.find_by(sender: current_user, recipient_id: params[:follow_request][:recipient_id])
+      if existing_request && existing_request.accepted?
+        redirect_back(fallback_location: root_url, alert: "You are already following this user.")
+      end
     end
   end
   # GET /follow_requests or /follow_requests.json
@@ -69,6 +71,22 @@ class FollowRequestsController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_back fallback_location: root_url, alert: "You can only delete your own follow requests." }
+        format.json { render json: { error: "Not authorized" }, status: :unauthorized }
+      end
+    end
+  end
+
+  def unfollow
+    # Ensure the current user is the sender and the request is accepted
+    if @follow_request.sender == current_user && @follow_request.accepted?
+      @follow_request.destroy
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, notice: "You have unfollowed the user." }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_back fallback_location: root_url, alert: "You can only unfollow users you are following." }
         format.json { render json: { error: "Not authorized" }, status: :unauthorized }
       end
     end
